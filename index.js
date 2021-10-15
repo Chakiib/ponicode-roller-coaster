@@ -93,6 +93,20 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     });
     const output1 = yield processFile('1_simple_case.txt');
     console.log(`1_simple_case.txt => ${output1} dirhams`);
+    const output2 = yield processFile('2_1000_groups_of_few_people.txt');
+    console.log(`2_1000_groups_of_few_people.txt => ${output2} dirhams`);
+    const output3 = yield processFile('3_the_same_groups_go_on_the_ride_several_times_during_the_day.txt');
+    console.log(`3_the_same_groups_go_on_the_ride_several_times_during_the_day.txt => ${output3} dirhams`);
+    const output4 = yield processFile('4_all_the_people_get_on_the_roller_coaster_at_least_once.txt');
+    console.log(`4_all_the_people_get_on_the_roller_coaster_at_least_once.txt => ${output4} dirhams`);
+    const output5 = yield processFile('5_high_earnings_during_the_day.txt');
+    console.log(`5_high_earnings_during_the_day.txt => ${output5} dirhams`);
+    // const output6 = await processFile('6_works_with_a_large_dataset.txt');
+    // console.log(`6_works_with_a_large_dataset.txt => ${output6} dirhams`);
+    // const output7 = await processFile('7_hard.txt');
+    // console.log(`7_hard.txt => ${output7} dirhams`);
+    // const output8 = await processFile('8_harder.txt');
+    // console.log(`8_harder.txt => ${output8} dirhams`);
 });
 if (require.main === module) {
     main();

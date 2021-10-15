@@ -11,11 +11,6 @@ const main = async () => {
             do {
                 let numOfPersons = 0;
 
-                console.log('numOfPersons', numOfPersons);
-                console.log('groupCount', groupCount);
-                console.log('places', places);
-                console.log('numOfPersons + groupCount <= places', numOfPersons + groupCount <= places);
-
                 // People queue up in front of the attraction
                 // They can either be alone or in a group. When groups are in the queue, they necessarily want to ride together, without being separated.
                 // People never overtake each other in the queue.
