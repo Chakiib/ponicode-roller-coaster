@@ -4,28 +4,52 @@ import readline from 'readline';
 const main = async () => {
     const calculateEarnings = (places: number, timesPerDay: number, groups: number[]) => {
         return new Promise((resolve) => {
+            // sequences array to store past sequences and their earnings
+            const sequences = new Map<string, number>();
+
             let earnings = 0;
             let groupCount = groups.shift()!;
 
             // do/while since the attraction can only function for a limited number of times per day.
             do {
-                let numOfPersons = 0;
+                // Build current sequence
+                const currentSequence = `${groupCount},${groups.toString()}`;
 
-                // People queue up in front of the attraction
-                // They can either be alone or in a group. When groups are in the queue, they necessarily want to ride together, without being separated.
-                // People never overtake each other in the queue.
-                // When there isn’t enough space in the attraction for the next group in the queue, the ride starts (so it is not always full).
-                for (let i = 0; i <= groups.length && numOfPersons + groupCount <= places; i++) {
-                    numOfPersons += groupCount;
+                // Look for similar past sequence
+                const pastSequence = sequences.get(currentSequence);
+
+                // If we already had a similar sequence, then we only need to add its earnings to the total earnings
+                if (pastSequence) {
+                    // Add to earnings
+                    earnings += pastSequence;
 
                     groups.push(groupCount);
 
-                    // * As soon as the ride is finished, the groups that come out, go back into the queue in the same order.
+                    // As soon as the ride is finished, the groups that come out, go back into the queue in the same order.
                     groupCount = groups.shift()!;
-                }
+                } else {
+                    // Otherwise, calculate earnings
+                    let numOfPersons = 0;
 
-                // Add to earnings
-                earnings += numOfPersons;
+                    // People queue up in front of the attraction
+                    // They can either be alone or in a group. When groups are in the queue, they necessarily want to ride together, without being separated.
+                    // People never overtake each other in the queue.
+                    // When there isn’t enough space in the attraction for the next group in the queue, the ride starts (so it is not always full).
+                    for (let i = 0; i <= groups.length && numOfPersons + groupCount <= places; i++) {
+                        numOfPersons += groupCount;
+
+                        groups.push(groupCount);
+
+                        // As soon as the ride is finished, the groups that come out, go back into the queue in the same order.
+                        groupCount = groups.shift()!;
+                    }
+
+                    // Store new sequence
+                    sequences.set(currentSequence, numOfPersons);
+
+                    // Add to total earnings
+                    earnings += numOfPersons;
+                }
 
                 // Decrease remaining times per day
                 timesPerDay--;
@@ -69,23 +93,23 @@ const main = async () => {
         return await calculateEarnings(places, timesPerDay, groups);
     };
 
-    const output1 = await processFile('1_simple_case.txt');
-    console.log(`1_simple_case.txt => ${output1} dirhams`);
+    // const output1 = await processFile('1_simple_case.txt');
+    // console.log(`1_simple_case.txt => ${output1} dirhams`);
 
-    const output2 = await processFile('2_1000_groups_of_few_people.txt');
-    console.log(`2_1000_groups_of_few_people.txt => ${output2} dirhams`);
+    // const output2 = await processFile('2_1000_groups_of_few_people.txt');
+    // console.log(`2_1000_groups_of_few_people.txt => ${output2} dirhams`);
 
-    const output3 = await processFile('3_the_same_groups_go_on_the_ride_several_times_during_the_day.txt');
-    console.log(`3_the_same_groups_go_on_the_ride_several_times_during_the_day.txt => ${output3} dirhams`);
+    // const output3 = await processFile('3_the_same_groups_go_on_the_ride_several_times_during_the_day.txt');
+    // console.log(`3_the_same_groups_go_on_the_ride_several_times_during_the_day.txt => ${output3} dirhams`);
 
-    const output4 = await processFile('4_all_the_people_get_on_the_roller_coaster_at_least_once.txt');
-    console.log(`4_all_the_people_get_on_the_roller_coaster_at_least_once.txt => ${output4} dirhams`);
+    // const output4 = await processFile('4_all_the_people_get_on_the_roller_coaster_at_least_once.txt');
+    // console.log(`4_all_the_people_get_on_the_roller_coaster_at_least_once.txt => ${output4} dirhams`);
 
-    const output5 = await processFile('5_high_earnings_during_the_day.txt');
-    console.log(`5_high_earnings_during_the_day.txt => ${output5} dirhams`);
+    // const output5 = await processFile('5_high_earnings_during_the_day.txt');
+    // console.log(`5_high_earnings_during_the_day.txt => ${output5} dirhams`);
 
-    // const output6 = await processFile('6_works_with_a_large_dataset.txt');
-    // console.log(`6_works_with_a_large_dataset.txt => ${output6} dirhams`);
+    const output6 = await processFile('6_works_with_a_large_dataset.txt');
+    console.log(`6_works_with_a_large_dataset.txt => ${output6} dirhams`);
 
     // const output7 = await processFile('7_hard.txt');
     // console.log(`7_hard.txt => ${output7} dirhams`);
