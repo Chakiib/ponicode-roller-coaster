@@ -33,7 +33,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
                 // They can either be alone or in a group. When groups are in the queue, they necessarily want to ride together, without being separated.
                 // People never overtake each other in the queue.
                 // When there isn’t enough space in the attraction for the next group in the queue, the ride starts (so it is not always full).
-                for (let i = 0; i < groups.length && numOfPersons + groupCount <= places; i++) {
+                for (let i = 0; i <= groups.length && numOfPersons + groupCount <= places; i++) {
                     numOfPersons += groupCount;
                     groups.push(groupCount);
                     // * As soon as the ride is finished, the groups that come out, go back into the queue in the same order.
